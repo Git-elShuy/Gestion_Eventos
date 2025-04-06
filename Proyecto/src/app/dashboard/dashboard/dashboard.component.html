@@ -17,7 +17,7 @@
             <!-- Sidebar Navigation -->
             <ul class="sidebar-nav p-0">
                 <li class="sidebar-header">
-                    Tools & Components
+                    Navegacion
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
@@ -45,20 +45,20 @@
                 </li>
                 
                 <li class="sidebar-header">
-                    Pages
+                    Gestion de usuarios
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#auth" aria-expanded="true" aria-controls="auth">
-                        <i class="lni lni-protection"></i>
-                        <span>Auth</span>
+                        <i class="lni lni-user"></i>
+                        <span>Usuarios</span>
                     </a>
                     <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Login</a>
+                            <a href="#" class="sidebar-link"><i class="lni lni-protection"></i>Roles y permisos</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Register</a>
+                            <a role="button"(click)="setIndex(6)" class="sidebar-link"><i class="lni lni-plus"></i>Crear usuario</a>
                         </li>
                     </ul>
                 </li>
@@ -94,7 +94,12 @@
             <main class="p-3">
                 <div class="container-fluid">
                     <div class="mb-3 text-center">
-                        <h1>Main content</h1>
+                        <h1>{{titulo}}</h1>
+                        <div class="content" [ngSwitch]="index">
+                            <div *ngSwitchCase="6">
+                                <app-registro-usuario></app-registro-usuario>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
