@@ -6,8 +6,7 @@ import { Component, AfterViewInit, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements AfterViewInit, OnInit {
-  index:number=0;
-  titulo:String="";
+
   ngAfterViewInit(): void {
     const toggler = document.querySelector(".toggler-btn");
 
@@ -24,26 +23,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-      this.setIndex(-1);
+  
   }
 
-  setIndex(value:number){
 
-    switch(value) {
-      case -1:{
-        this.titulo="HOME";
-        break;
-      }
-      case 6: {
-        this.titulo = "Nuevo Usuario";
-        break; 
-      }
-      default: {
-        this.titulo = "HOME"
-      }
-    }
-    
-
-    this.index=value;
-  }
 }
