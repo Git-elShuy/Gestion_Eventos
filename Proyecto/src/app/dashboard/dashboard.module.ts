@@ -8,6 +8,12 @@ import { EventosComponent } from './eventos/eventos.component';
 import { RegistrarEventoComponent } from './eventos/registrar-evento/registrar-evento.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UbicacionesComponent } from './ubicaciones/ubicaciones.component';
+import { RegistrarUbicacionComponent } from './ubicaciones/registrar-ubicacion/registrar-ubicacion.component';
+import { EditarUbicacionComponent } from './ubicaciones/editar-ubicacion/editar-ubicacion.component';
+import { RecuperarLugarComponent } from './ubicaciones/recuperar-lugar/recuperar-lugar.component';
+import { RecuperarUbicacionComponent } from './ubicaciones/recuperar-ubicacion/recuperar-ubicacion.component';
+import { CarrerasComponent } from './carreras/carreras.component';
 
 
 @NgModule({
@@ -16,7 +22,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RegistroUsuarioComponent,
     EventosComponent,
     RegistrarEventoComponent,
-    SidebarComponent
+    SidebarComponent,
+    UbicacionesComponent,
+    RegistrarUbicacionComponent,
+    EditarUbicacionComponent,
+    RecuperarLugarComponent,
+    RecuperarUbicacionComponent,
+    CarrerasComponent
   ],
   imports: [
     CommonModule,
