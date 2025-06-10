@@ -1,0 +1,35 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="mainContainer">
+        <nav class="navbar navbar-expand-md">
+            <button class="toggler-btn btn btn-outline-dark d-md" type="button">
+                <i class="lni lni-text-align-left"></i>
+            </button>
+        </nav>
+        <main class="p-3">
+            <div class="container-fluid">
+                <div class="mb-3 text-center">
+                    <h1>RECUPERAR UBICACIONES</h1>
+                    <div class="container mt-4">
+                        <ul class="nav nav-tabs flex-column flex-md-row">
+                            <li class="nav-item">
+                                <a class="nav-link" style="color: black;"
+                                    routerLink="/dashboard/ubicaciones">ACTIVAS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" style="color: black;" aria-current="page">INACTIVAS</a>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <div class="col">
+                                <div class="table-responsive">
+                                    <table id="miTabla" class="display"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

@@ -9,14 +9,26 @@
     <main class="p-3">
       <div class="container-fluid">
         <div class="text-center">
-          <h1>REGISTRAR USUARIO</h1>
+          <h1 *ngIf="permiso == 1;">REGISTRAR USUARIO</h1>
+          <h1 *ngIf="permiso == 2;">REGISTRAR ASISTENTE</h1>
           <div class="container mt-4">
             <hr />
             <form action="" [formGroup]="form" (ngSubmit)="submit()">
               <div class="row">
                 <div class="col">
                   <!-- Matricula input -->
-                  <div data-mdb-input-init class="form-outline">
+                  <div *ngIf="permiso==1 || permiso==2"data-mdb-input-init class="form-outline">
+                    <input type="text" id="Matriculainput" class="form-control" formControlName="matricula"
+                      placeholder="Matricula" />
+                    <div *ngIf="form.controls['matricula'].touched && form.controls['matricula'].errors">
+                      <small class="text-danger" *ngIf="form.controls['matricula'].errors['required']">La matricula es obligatoria.</small>
+                      <small class="text-danger"
+                        *ngIf="!form.controls['matricula'].errors['required'] && form.controls['matricula'].errors['pattern']">
+                        La matricula no debe contener letras.</small>
+                    </div>
+                  </div>
+
+                  <!--                  <div *ngIf="permiso==2"data-mdb-input-init class="form-outline mb-5">
                     <input type="text" id="Matriculainput" class="form-control" formControlName="matricula"
                       placeholder="Matricula" />
                     <div *ngIf="form.controls['matricula'].touched && form.controls['matricula'].errors">
@@ -25,20 +37,19 @@
                         *ngIf="!form.controls['matricula'].errors['required'] && form.controls['matricula'].errors['pattern']">
                         La matricula no debe contener letras.</small>
                     </div>
-                    <!--<label class="form-label" for="Matriculainput">Matricula</label>-->
-                  </div>
+                  </div>-->
                 </div>
-                <div class="col">
+                <div *ngIf="permiso == 1;" class="col">
                   <!-- Carrera input -->
-                  <select class="form-select mb-4" aria-label="Default select example" formControlName="carrera">
+                  <select class="form-select mb-4" aria-label="Seleccionar carrera" formControlName="idcarrera">
                     <option value="" selected>---Seleccionar carrera---</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option *ngFor="let carrera of carreras" [value]="carrera.idcarreras">
+                      {{ carrera.nombre }}
+                    </option>
                   </select>
 
-                  <div *ngIf="form.controls['carrera'].touched && form.controls['carrera'].errors">
-                    <small *ngIf="form.controls['carrera'].errors['required']">La carrera es obligatoria.</small>
+                  <div *ngIf="form.controls['idcarrera'].touched && form.controls['idcarrera'].errors">
+                    <small class="text-danger" *ngIf="form.controls['idcarrera'].errors['required']">La carrera es obligatoria.</small>
                   </div>
                 </div>
               </div>
@@ -51,18 +62,18 @@
                     <input type="text" id="nombreinput" class="form-control" formControlName="nombre"
                       placeholder="Nombre" />
                     <div *ngIf="form.controls['nombre'].touched && form.controls['nombre'].errors">
-                      <div *ngIf="form.controls['nombre'].errors['required']">El nombre es obligatorio.</div>
+                      <div *ngIf="form.controls['nombre'].errors['required']"><small class="text-danger">El nombre es obligatorio.</small></div>
                       <div
                         *ngIf="!form.controls['nombre'].errors['required'] && form.controls['nombre'].errors['pattern']">
-                        El nombre solo debe contener letras.
+                          <small class="text-danger">El nombre solo debe contener letras.</small>
                       </div>
                       <div
                         *ngIf="!form.controls['nombre'].errors['required'] && !form.controls['nombre'].errors['pattern'] && form.controls['nombre'].errors['minlength']">
-                        El nombre debe tener al menos 3 caracteres.
+                        <small class="text-danger"> El nombre debe tener al menos 3 caracteres.</small>
                       </div>
                       <div
                         *ngIf="!form.controls['nombre'].errors['required'] && !form.controls['nombre'].errors['pattern'] && !form.controls['nombre'].errors['minlength'] && form.controls['nombre'].errors['maxlength']">
-                        El nombre no debe exceder los 20 caracteres.
+                        <small class="text-danger">El nombre no debe exceder los 20 caracteres.</small>
                       </div>
                     </div>
                       <!--hola aqui esta el cambio-->
@@ -77,14 +88,14 @@
                     <input type="text" id="Apellidoinput" class="form-control" formControlName="apellido"
                       placeholder="Apellido" />
                     <div *ngIf="form.controls['apellido'].touched && form.controls['apellido'].errors">
-                      <small *ngIf="form.controls['apellido'].errors['required']">El apellido es obligatorio.</small>
-                      <small
+                      <small class="text-danger" *ngIf="form.controls['apellido'].errors['required']">El apellido es obligatorio.</small>
+                      <small class="text-danger"
                         *ngIf="!form.controls['apellido'].errors['required'] && form.controls['apellido'].errors['pattern']">
                         El apellido solo debe contener letras.</small>
-                      <small
+                      <small class="text-danger"
                         *ngIf="!form.controls['apellido'].errors['required'] && !form.controls['apellido'].errors['pattern'] && form.controls['apellido'].errors['minlength']">
                         El apellido debe tener al menos 3 caracteres.</small>
-                      <small
+                      <small class="text-danger"
                         *ngIf="!form.controls['apellido'].errors['required'] && !form.controls['apellido'].errors['pattern'] && !form.controls['apellido'].errors['minlength'] && form.controls['apellido'].errors['maxlength']">
                         El nombre no debe exceder los 20 caracteres.
                       </small>
@@ -96,14 +107,14 @@
 
               <div class="row mt-3">
                 <div class="col">
-                  <div data-mdb-input-init class="form-outline    ">
-                    <input type="text" id="form6Example6" class="form-control" formControlName="telefono"
+                  <div data-mdb-input-init class="form-outline">
+                    <input type="text" id="form6Example6" class="form-control" formControlName="celular"
                       placeholder="Celular" />
-                      <div *ngIf="form.controls['telefono'].touched && form.controls['telefono'].errors">
-                        <small *ngIf="form.controls['telefono'].errors['required']">
+                      <div *ngIf="form.controls['celular'].touched && form.controls['celular'].errors">
+                        <small class="text-danger" *ngIf="form.controls['celular'].errors['required']">
                           El celular es obligatorio.
                         </small>
-                        <small *ngIf="form.controls['telefono'].errors['pattern']">
+                        <small class="text-danger" *ngIf="form.controls['celular'].errors['pattern']">
                           El celular debe contener maximo 10 dígitos y no debe incluir letras.
                         </small>
                       </div>
@@ -118,9 +129,9 @@
                     <input type="email" id="form8Example5" class="form-control" formControlName="email"
                       placeholder="Correo electronico" />
                     <div *ngIf="form.controls['email'].touched && form.controls['email'].errors">
-                      <small *ngIf="form.controls['email'].errors['required']">El correo electronico es
+                      <small class="text-danger" *ngIf="form.controls['email'].errors['required']">El correo electronico es
                         obligatorio.</small>
-                      <small
+                      <small class="text-danger"
                         *ngIf="!form.controls['email'].errors['required'] && form.controls['email'].errors['email']">
                         Correo electronico invalido.</small>
 
@@ -131,32 +142,17 @@
 
               </div>
 
-              <div class="row">
-                <h1>ROL DE USUARIO</h1>
+              <div *ngIf="permiso == 1;" class="row mt-3">
                 <div class="col mt-3">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="rol" id="inlineRadio1" value="option1"
-                      formControlName="rol">
-                    <label class="form-check-label text-center" for="inlineRadio1">Administrador</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="rol" id="inlineRadio2" value="option2"
-                      formControlName="rol">
-                    <label class="form-check-label text-center" for="inlineRadio2">Organizador</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="rol" id="inlineRadio3" value="option3"
-                      formControlName="rol">
-                    <label class="form-check-label text-center" for="inlineRadio3">Vendedor</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="rol" id="inlineRadio4" value="option4"
-                      formControlName="rol">
-                    <label class="form-check-label text-center" for="inlineRadio4">Recepcionista</label>
-                  </div>
+                  <select class="form-select mb-4" aria-label="Seleccionar permiso" formControlName="idpermiso">
+                    <option value="" selected class="text-center">--- Seleccionar permiso ---</option>
+                    <option class="text-center" *ngFor="let permiso of permisos" [value]="permiso.idpermiso">
+                      {{ permiso.nombre }}
+                    </option>
+                  </select>
                 </div>
-                <div *ngIf="form.controls['rol'].touched && form.controls['rol'].errors">
-                  <small *ngIf="form.controls['rol'].errors['required']">El rol es obligatorio.</small>
+                <div *ngIf="form.controls['idpermiso'].touched && form.controls['idpermiso'].errors">
+                  <small class="text-danger" *ngIf="form.controls['idpermiso'].errors['required']">El permiso es obligatorio.</small>
                 </div>
               </div>
               <hr />

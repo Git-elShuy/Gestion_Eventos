@@ -1,0 +1,55 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="main">
+        <nav class="navbar navbar-expand-md">
+            <button class="toggler-btn btn btn-outline-dark d-md" type="button">
+                <i class="lni lni-text-align-left"></i>
+            </button>
+        </nav>
+        <main class="p-3">
+            <div class="container-fluid">
+                <div class="mb-3 text-center">
+                    <h1>PATROCINIOS</h1>
+                    <ul class="nav nav-tabs flex-column flex-md-row">
+                        <li class="nav-item">
+                            <a class="nav-link" role="button" style="color: black;" (click)="GoDatosgenerales()">Datos
+                                Generales</a>
+                        </li>
+                        <li class="nav-item">
+
+                        <li class="nav-item">
+                            <a class="nav-link" role="button" style="color: black;"
+                                (click)="GoActividades()">Actividades</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" role="button" (click)="GoRecursos()">Recursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" style="color: black;"
+                                role="button">Patrocinios</a>
+                        </li>
+
+
+                    </ul>
+                    <div class="row mt-3">
+                        <ul class="nav nav-tabs flex-column flex-sm-row">
+                            <li class="nav-item">
+                                <a class="nav-link active" style="color: black;">Activos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" (click)="GoInactivos()"
+                                    style="color: black;">Inactivos</a>
+                            </li>
+                        </ul>
+                        <div class="col">
+                            <div class="table-responsive">
+                                <table id="miTabla" class="display"></table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

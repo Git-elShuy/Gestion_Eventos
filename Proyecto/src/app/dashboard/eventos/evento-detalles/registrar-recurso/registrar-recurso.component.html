@@ -1,0 +1,307 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="main">
+        <nav class="navbar navbar-expand-md">
+            <button class="toggler-btn btn btn-outline-dark d-md" type="button">
+                <i class="lni lni-text-align-left"></i>
+            </button>
+        </nav>
+        <main class="p-3">
+            <div class="container-fluid">
+                <div class="mb-3 text-center">
+                    <h1>REGISTRAR RECURSOS</h1>
+                    <!--Aqui en evento detalles carga los datos generales-->
+                    <ul class="nav nav-tabs flex-column flex-md-row">
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" role="button" (click)="GoDatosGenerales()">Datos
+                                Generales</a>
+                        </li>
+                        <li class="nav-item">
+
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" role="button"
+                                (click)="GoActividades()">Actividades</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" style="color: black;">Recursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" role="button"
+                                (click)="GoPatrocinios()">Patrocinios</a>
+                        </li>
+
+
+                    </ul>
+                    <div class="row">
+                        <div class="col">
+                            <div class="container mt-4">
+                                <form action="" [formGroup]="recursoForm" (ngSubmit)="enviarFormulario()">
+
+
+                                    <div class="card mb-4">
+                                        <div class="card-header fw-bold">DATOS DEL RECURSO</div>
+                                        <div class="card-body">
+
+                                            <div class="row">
+
+                                                <div class="col md-6">
+
+                                                    <input type="checkbox" class="" formControlName="es_patrocinio">
+                                                    ¿Es patrocinado?
+
+                                                    <div class="container"
+                                                        *ngIf="recursoForm.get('es_patrocinio')?.value">
+
+                                                        <div class="row">
+                                                            <div class="col">
+
+
+                                                                <select class="form-control form-select mt-4"
+                                                                    (change)="seleccionarPatrocinio($event)">
+                                                                    <option value="" class="text-center" selected
+                                                                        disabled>
+                                                                        ---Seleccionar---
+                                                                    </option>
+                                                                    <option *ngFor="let patrocinio of patrocinios"
+                                                                        [value]="patrocinio.idpatrocinio">
+                                                                        {{
+                                                                        patrocinio.idpatrocinio }} . {{
+                                                                        patrocinio.nombrePatrocinador }}
+                                                                    </option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="card mt-4">
+                                                            <div
+                                                                class="card-header d-flex justify-content-between align-items-center">
+                                                                <span class="fw-bold">RECURSOS</span>
+                                                                <i class="lni lni-plus" role="button"
+                                                                    (click)="addRecurso()"></i>
+                                                            </div>
+                                                            <div class="card-body recursos-container"
+                                                                formArrayName="recursos_array">
+                                                                <div *ngFor="let recurso of RecursosArray.controls; let i = index"
+                                                                    [formGroupName]="i"
+                                                                    class="row g-3 d-flex flex-wrap align-items-end justify-content-between">
+
+
+                                                                    <!-- Nombre del recurso -->
+                                                                    <div class="col-md-3 col-sm-12">
+                                                                        <label class="form-label">Recurso</label>
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="Nombre"
+                                                                            formControlName="nombre">
+                                                                        <div
+                                                                            *ngIf="RecursosArray.at(i).get('nombre')?.touched && RecursosArray.at(i).get('nombre')?.errors">
+                                                                            <small
+                                                                                *ngIf="RecursosArray.at(i).get('nombre')?.errors?.['required']"
+                                                                                class="text-danger">
+                                                                                Este campo es obligatorio.
+                                                                            </small>
+                                                                            <small
+                                                                                *ngIf="RecursosArray.at(i).get('nombre')?.errors?.['pattern']"
+                                                                                class="text-danger">
+                                                                                Caracteres no permitidos.
+                                                                            </small>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Cantidad -->
+                                                                    <div class="col-md-2 col-sm-6">
+                                                                        <label class="form-label">Cantidad</label>
+                                                                        <input type="number" min="1"
+                                                                            class="form-control"
+                                                                            formControlName="cantidad">
+                                                                        <div
+                                                                            *ngIf="RecursosArray.at(i).get('cantidad')?.touched && RecursosArray.at(i).get('cantidad')?.errors">
+                                                                            <small
+                                                                                *ngIf="RecursosArray.at(i).get('cantidad')?.errors?.['required']"
+                                                                                class="text-danger">
+                                                                                Este campo es obligatorio.
+                                                                            </small>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Tipo de recurso -->
+                                                                    <div class="col-md-2 col-sm-6">
+                                                                        <label class="form-label">Tipo:</label>
+                                                                        <select class="form-control form-select"
+                                                                            formControlName="tipo"
+                                                                            (change)="verificarTipo(i)">
+                                                                            <option value="" class="text-center"
+                                                                                selected>---Seleccionar---</option>
+                                                                            <option value="unidad">Unidad</option>
+                                                                            <option value="paquete">Paquete</option>
+                                                                            <option value="kilogramos">Kilogramos
+                                                                            </option>
+                                                                        </select>
+                                                                        <div
+                                                                            *ngIf="RecursosArray.at(i).get('tipo')?.touched && RecursosArray.at(i).get('tipo')?.errors">
+                                                                            <small
+                                                                                *ngIf="RecursosArray.at(i).get('tipo')?.errors?.['required']"
+                                                                                class="text-danger">
+                                                                                Este campo es obligatorio.
+                                                                            </small>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Contenido por paquete (solo si el tipo es paquete) -->
+                                                                    <div class="col-md-2 col-sm-6">
+                                                                        <div
+                                                                            *ngIf="RecursosArray.at(i).get('tipo')?.value === 'paquete'">
+                                                                            <label class="form-label">Cantidad por
+                                                                                paquete:</label>
+                                                                            <input class="form-control" type="number"
+                                                                                formControlName="contenido_paquete">
+                                                                            <div
+                                                                                *ngIf="RecursosArray.at(i).get('contenido_paquete')?.touched && RecursosArray.at(i).get('contenido_paquete')?.errors">
+                                                                                <small
+                                                                                    *ngIf="RecursosArray.at(i).get('contenido_paquete')?.errors?.['required']"
+                                                                                    class="text-danger">
+                                                                                    Este campo es obligatorio.
+                                                                                </small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="col-md-2 sm-6">
+                                                                        <button type="button"
+                                                                            class="btn btn-danger btn-sm mt-4"
+                                                                            (click)="removeRecurso(i)"><i
+                                                                                class="fa fa-remove"></i> </button>
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="mb-3" *ngIf="!recursoForm.get('es_patrocinio')?.value">
+
+                                                <div class="card mt-4">
+                                                    <div
+                                                        class="card-header d-flex justify-content-between align-items-center">
+                                                        <span class="fw-bold">RECURSOS</span>
+                                                        <i class="lni lni-plus" role="button"
+                                                            (click)="addRecurso()"></i>
+                                                    </div>
+                                                    <div class="card-body recursos-container"
+                                                        formArrayName="recursos_array">
+                                                        <div *ngFor="let recurso of RecursosArray.controls; let i = index"
+                                                            [formGroupName]="i"
+                                                            class="row g-3 d-flex flex-wrap align-items-end justify-content-between">
+
+
+                                                            <!-- Nombre del recurso -->
+                                                            <div class="col-md-3 col-sm-12">
+                                                                <label class="form-label">Recurso</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Nombre" formControlName="nombre">
+                                                                <div
+                                                                    *ngIf="RecursosArray.at(i).get('nombre')?.touched && RecursosArray.at(i).get('nombre')?.errors">
+                                                                    <small
+                                                                        *ngIf="RecursosArray.at(i).get('nombre')?.errors?.['required']"
+                                                                        class="text-danger">
+                                                                        Este campo es obligatorio.
+                                                                    </small>
+                                                                    <small
+                                                                        *ngIf="RecursosArray.at(i).get('nombre')?.errors?.['pattern']"
+                                                                        class="text-danger">
+                                                                        Caracteres no permitidos.
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Cantidad -->
+                                                            <div class="col-md-2 col-sm-6">
+                                                                <label class="form-label">Cantidad</label>
+                                                                <input type="number" min="1" class="form-control"
+                                                                    formControlName="cantidad">
+                                                                <div
+                                                                    *ngIf="RecursosArray.at(i).get('cantidad')?.touched && RecursosArray.at(i).get('cantidad')?.errors">
+                                                                    <small
+                                                                        *ngIf="RecursosArray.at(i).get('cantidad')?.errors?.['required']"
+                                                                        class="text-danger">
+                                                                        Este campo es obligatorio.
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Tipo de recurso -->
+                                                            <div class="col-md-2 col-sm-6">
+                                                                <label class="form-label">Tipo:</label>
+                                                                <select class="form-control form-select"
+                                                                    formControlName="tipo" (change)="verificarTipo(i)">
+                                                                    <option value="" class="text-center" selected>
+                                                                        ---Seleccionar---</option>
+                                                                    <option value="unidad">Unidad</option>
+                                                                    <option value="paquete">Paquete</option>
+                                                                    <option value="kilogramos">Kilogramos
+                                                                    </option>
+                                                                </select>
+                                                                <div
+                                                                    *ngIf="RecursosArray.at(i).get('tipo')?.touched && RecursosArray.at(i).get('tipo')?.errors">
+                                                                    <small
+                                                                        *ngIf="RecursosArray.at(i).get('tipo')?.errors?.['required']"
+                                                                        class="text-danger">
+                                                                        Este campo es obligatorio.
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Contenido por paquete (solo si el tipo es paquete) -->
+
+                                                            <div class="col-md-2 col-sm-6">
+                                                                <div
+                                                                    *ngIf="RecursosArray.at(i).get('tipo')?.value === 'paquete'">
+                                                                    <label class="form-label">Cantidad por
+                                                                        paquete:</label>
+                                                                    <input class="form-control" type="number"
+                                                                        formControlName="contenido_paquete">
+                                                                    <div
+                                                                        *ngIf="RecursosArray.at(i).get('contenido_paquete')?.touched && RecursosArray.at(i).get('contenido_paquete')?.errors">
+                                                                        <small
+                                                                            *ngIf="RecursosArray.at(i).get('contenido_paquete')?.errors?.['required']"
+                                                                            class="text-danger">
+                                                                            Este campo es obligatorio.
+                                                                        </small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-2 sm-6">
+                                                                <button type="button" class="btn btn-danger btn-sm mt-4"
+                                                                    (click)="removeRecurso(i)"><i
+                                                                        class="fa fa-remove"></i> </button>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="button-14" role="button" type="submit">Completar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

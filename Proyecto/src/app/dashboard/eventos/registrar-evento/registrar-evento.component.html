@@ -9,116 +9,195 @@
         <main class="p-3">
             <div class="container-fluid">
                 <div class="mb-3 text-center">
-                    <h1>DATOS DEL EVENTO</h1>
-                    <div class="container mt-5">
-                        <form action="">
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Matricula input -->
-                                    <div data-mdb-input-init class="form-outline">
-                                        <input type="text" id="Nombre" class="form-control" />
-                                        <label class="form-label" for="Nombre">Nombre</label>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <!-- Carrera input -->
-                                    <select class="form-select mb-4" aria-label="Default select example">
-                                        <option selected>---Seleccionar carrera---</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                            </div>
+                    <h1>REGISTRO DE EVENTO</h1>
+                    <div class="container mt-4">
+                        <form [formGroup]="eventoForm" (ngSubmit)="enviarFormulario()">
 
-
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Fecha1 input -->
-                                    <div data-mdb-input-init class="form-outline">
-                                        <input type="date" id="fecha1" class="form-control" />
-                                        <label class="form-label" for="fecha1">Fecha inicial</label>
+                            <!-- DATOS DEL EVENTO -->
+                            <div class="card mb-4">
+                                <div class="card-header fw-bold">DATOS DEL EVENTO</div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Título</label>
+                                        <input type="text" class="form-control" formControlName="nombre"
+                                            placeholder="Nombre del evento">
+                                        <div
+                                            *ngIf="eventoForm.controls['nombre'].touched && eventoForm.controls['nombre'].errors">
+                                            <small *ngIf="eventoForm.controls['nombre'].errors['required']"
+                                                class="text-danger">Este campo es obligatorio.</small>
+                                            <small
+                                                *ngIf="!eventoForm.controls['nombre'].errors['required'] && eventoForm.controls['nombre'].errors['pattern']"
+                                                class="text-danger">
+                                                Caracteres no permitidos.
+                                            </small>
+                                            <small
+                                                *ngIf="!eventoForm.controls['nombre'].errors['required'] && !eventoForm.controls['nombre'].errors['pattern'] && eventoForm.controls['nombre'].errors['minlength']"
+                                                class="text-danger">
+                                                Debe tener al menos 5 caracteres.
+                                            </small>
+                                            <small
+                                                *ngIf="!eventoForm.controls['nombre'].errors['required'] && !eventoForm.controls['nombre'].errors['pattern'] && !eventoForm.controls['nombre'].errors['minlength'] && eventoForm.controls['nombre'].errors['maxlength']"
+                                                class="text-danger">
+                                                No debe exceder los 20 caracteres.
+                                            </small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <!-- Fecha2 input -->
-                                    <div data-mdb-input-init class="form-outline">
-                                        <input type="date" id="fecha2" class="form-control" />
-                                        <label class="form-label" for="fecha2">Fecha final</label>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected class="text-center">---Seleccionar ubicacion---</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row">
-                                <div class="col">
-                                    <h1>USUARIOS</h1>
-                                    <hr />
-                                    <div class="form-group">
-                                        <div *ngFor="let organizer of usuarios; let i = index">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <select class="form-select mt-2"
-                                                        aria-label="Default select example">
-                                                        <option selected class="text-center">---Seleccionar usuario---
-                                                        </option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <i role="button" (click)="removeUsuario(i)"
-                                                        class="lni lni-circle-minus mt-2"></i>
-                                                </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Inicia</label>
+                                            <input type="date" class="form-control" formControlName="fechainicio">
+                                            <div
+                                                *ngIf="eventoForm.controls['fechainicio'].touched && eventoForm.controls['fechainicio'].errors">
+                                                <small *ngIf="eventoForm.controls['fechainicio'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
                                             </div>
                                         </div>
-                                        <i role="button" (click)="addUsuario()" class="lni lni-plus mt-3"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row">
-                                <div class="col">
-                                    <h1>ACTIVIDADES</h1>
-                                    <div class="form-group">
-                                        <div *ngFor="let organizer of actividades; let i = index">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <select class="form-select mt-2"
-                                                        aria-label="Default select example">
-                                                        <option selected class="text-center">---Seleccionar usuario---
-                                                        </option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <i role="button" (click)="removeActividad(i)"
-                                                        class="lni lni-circle-minus mt-2"></i>
-                                                </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Termina</label>
+                                            <input type="date" class="form-control" formControlName="fechafin">
+                                            <div
+                                                *ngIf="eventoForm.controls['fechafin'].touched && eventoForm.controls['fechafin'].errors">
+                                                <small *ngIf="eventoForm.controls['fechafin'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
                                             </div>
                                         </div>
-                                        <i role="button" (click)="addActividad()" class="lni lni-plus mt-3"></i>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label class="form-label">Hora</label>
+                                            <input type="time" class="form-control " formControlName="hora">
+                                            <div
+                                                *ngIf="eventoForm.controls['hora'].touched && eventoForm.controls['hora'].errors">
+                                                <small *ngIf="eventoForm.controls['hora'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label class="form-label">Ubicacion</label>
+                                            <select class="form-control form-select" aria-label="Seleccionar ubicacion"
+                                                formControlName="ubicacion_id">
+                                                <option value="" class="text-center" selected>---Seleccionar---</option>
+                                                <option *ngFor="let ubicacion of ubicaciones"
+                                                    [value]="ubicacion.idUbicaciones">
+                                                    {{ ubicacion.nombre }}
+                                                </option>
+                                            </select>
+                                            <div
+                                                *ngIf="eventoForm.controls['ubicacion_id'].touched && eventoForm.controls['ubicacion_id'].errors">
+                                                <small *ngIf="eventoForm.controls['ubicacion_id'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!--                                    <div class="mb-3">
+
+                                    </div>-->
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Descripción</label>
+                                        <textarea class="form-control" formControlName="descripcion"
+                                            rows="2"></textarea>
+                                        <div
+                                            *ngIf="eventoForm.controls['descripcion'].touched && eventoForm.controls['descripcion'].errors">
+                                            <small *ngIf="eventoForm.controls['descripcion'].errors['required']"
+                                                class="text-danger">Este campo es obligatorio.</small>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr />
 
-                            <button class="button-14" role="button" type="submit">Completar</button>
+                                
+                            </div>
+                                <!-- ACTIVIDADES 
+                            <div class="card mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">ACTIVIDADES</span>
+                                    <i class="lni lni-plus" role="button" (click)="addActividad()"></i>
+
+                                </div>
+                                <div class="card-body" formArrayName="actividades">
+                                    <div *ngFor="let act of actividadesArray.controls; let i = index"
+                                        [formGroupName]="i" class="row g-2 align-items-end mb-2">
+                                        <div class="col-12 col-md-3">
+                                            <label class="form-label">Nombre de la actividad</label>
+                                            <input type="text" class="form-control" formControlName="nombre">
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <label class="form-label">Fecha</label>
+                                            <input type="date" class="form-control" formControlName="fecha">
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <label class="form-label">Hora</label>
+                                            <input type="time" class="form-control" formControlName="hora">
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <label class="form-label">Lugar</label>
+                                            <input type="text" class="form-control" formControlName="lugar">
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <label class="form-label">Responsable</label>
+                                            <input type="text" class="form-control" formControlName="responsable">
+                                        </div>
+                                        <div class="col-6 col-md-1">
+                                            <label class="form-label">Cupos</label>
+                                            <input type="number" class="form-control" formControlName="cupos" min="1">
+                                        </div>
+                                        <div class="col-6 col-md-1 text-end mx-auto">
+                                            <button type="button" class="btn btn-outline-danger btn-sm mt-4"
+                                                (click)="removeActividad(i)">🗑️</button>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div> -->
+
+                                <!-- ORGANIZADORES 
+
+                            <div class="card mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">ORGANIZADORES</span>
+                                    <i class="lni lni-plus" role="button" (click)="addUsuario()"></i>
+
+                                </div>
+                                <div class="card-body" formArrayName="usuarios">
+                                    <div *ngFor="let org of usuariosArray.controls; let i = index" [formGroupName]="i"
+                                        class="row g-2 align-items-end mb-2">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Nombre del organizador</label>
+                                            <input type="text" class="form-control" formControlName="nombre">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Rol</label>
+                                            <input type="text" class="form-control" formControlName="rol">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Contacto</label>
+                                            <input type="text" class="form-control" formControlName="contacto">
+                                        </div>
+                                        <div class="col-md-1 text-end">
+                                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                                (click)="removeUsuario(i)">🗑️</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                                <!-- BOTÓN DE ENVÍO -->
+                                <div class="text-center">
+                                    <button class="button-14" role="button" type="submit">Completar</button>
+                                </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </main>

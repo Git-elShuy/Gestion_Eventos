@@ -1,0 +1,41 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+
+    <div class="main">
+        <nav class="navbar navbar-expand-md">
+            <button class="toggler-btn btn btn-outline-dark d-md" type="button">
+                <i class="lni lni-text-align-left"></i>
+            </button>
+        </nav>
+        <main class="p-3">
+            <div class="container-fluid">
+                <h1 class="text-center">EDITAR CARRERA</h1>
+
+                <div class="container mt-4">
+                    <form action="" [formGroup]="carreraForm" (ngSubmit)="enviarFormulario()">
+                        <div class="card mb-4">
+                            <div class="card-header fw-bold">DATOS DE LA CARRERA</div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre">
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">Abreviatura</label>
+                                        <input type="text" class="form-control" placeholder="ej. ISC" formControlName="abreviatura">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button class="button-14" type="submit">Completar</button>
+                        </div> 
+                        
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
