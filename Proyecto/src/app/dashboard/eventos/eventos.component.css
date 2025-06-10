@@ -1,7 +1,3 @@
-
-
-
-
 h1 {
     font-weight: 800;
 }
@@ -9,23 +5,14 @@ h1 {
 
 
 
-
-/*.main {
-    min-height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    background-color: #f9f9f9;
-}*/
 .main {
     min-height: 100vh;
     width: 100%;
-    /*width: calc(100% - 264px); /* Calcula el ancho excluyendo el sidebar */
-   /* margin-left: 264px; /* Espacio reservado para el sidebar */
-    /*overflow-y: auto; /* Habilita desplazamiento si el contenido es largo */
     overflow: hidden;
     background-color: #f9f9f9;
+    overflow-y: auto;
+    max-height: calc(100vh - 50px);
 }
-
 
 
 
@@ -46,27 +33,3 @@ h1 {
     padding: 1.15rem 1.5rem;
     border-bottom: 2px dashed #b3a8a8;
 }
-
-
-
-
-
-
-
-
-
-
-
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .row {
-    display: flex;
-    align-items: center;
-  }
-  
-
-
-

@@ -142,6 +142,25 @@ def obtener_lugaresByidUbicacion(id_ubicacion):
         print(f"Error al obtener lugares: {e}")
         return jsonify({'error': 'Error interno del servidor'}), 500
 
+@ubicaciones_bp.route('/lugares_ByidUbicacion/<int:id_ubicacion>', methods=['GET'])
+def lugaresActivos_ByidUbicacion(id_ubicacion):
+    try:
+        lugares = UbicacionesLugar.query.filter_by(ubicacion_id=id_ubicacion, eliminar=0).all()
+        lugares_json = [
+            {
+                'idubicaciones_lugar': lugar.idubicaciones_lugar,
+                'nombreLugar': lugar.nombre,
+                'capacidad': lugar.capacidad
+            } 
+            for lugar in lugares
+        ]
+
+        return jsonify(lugares_json), 200
+    except SQLAlchemy as e:
+        print(f"Error al obtener lugares: {e}")
+        return jsonify({'error': 'Error interno del servidor'}), 500
+
+
 @ubicaciones_bp.route('/recuperar_lugar/<int:lugar_id>', methods=['PUT'])
 def recuperar_lugares(lugar_id):
     try:
@@ -256,4 +275,5 @@ def recuperar_ubicacion(idubicacion):
         db.session.rollback()
         print(f"Error al recuperar lugar: {e}")
         return jsonify({'error': 'Error interno del servidor'}), 500        
+
 

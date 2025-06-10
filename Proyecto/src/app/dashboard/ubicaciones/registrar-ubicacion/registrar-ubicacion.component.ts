@@ -1,15 +1,15 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { UbicacionesService } from '../ubicaciones.service';
 import { Ubicacion } from '../ubicacion';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-registrar-ubicacion',
   templateUrl: './registrar-ubicacion.component.html',
   styleUrl: './registrar-ubicacion.component.css'
 })
-export class RegistrarUbicacionComponent implements AfterViewInit {
+export class RegistrarUbicacionComponent implements AfterViewInit, OnInit {
   ubicacionForm: FormGroup;
   /*ubicacion: Ubicacion = {
    nombre: "",
@@ -50,8 +50,18 @@ export class RegistrarUbicacionComponent implements AfterViewInit {
       console.log(data);
       this.us.crearUbicacion(data).subscribe({
         next: res => {
-          alert('Ubicación creada con éxito');
-          this.router.navigate(['/dashboard/ubicaciones']);
+          //alert('Ubicación creada con éxito');
+          Swal.fire({
+            title: '¡Operación exitosa!',
+            text: 'El proceso se completó correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#28a745'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/dashboard/ubicaciones']);
+            }
+          });
         },
         error: err => {
           alert('Fallo al crear ubicacion');
@@ -75,5 +85,10 @@ export class RegistrarUbicacionComponent implements AfterViewInit {
     } else {
       console.error("Elemento '.toggler-btn' no encontrado en el DOM.");
     }
+  }
+  ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      Swal.close(); 
+    });
   }
 }

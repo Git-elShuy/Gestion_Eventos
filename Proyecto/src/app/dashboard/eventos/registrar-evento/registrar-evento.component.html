@@ -21,27 +21,77 @@
                                         <label class="form-label">Título</label>
                                         <input type="text" class="form-control" formControlName="nombre"
                                             placeholder="Nombre del evento">
+                                        <div
+                                            *ngIf="eventoForm.controls['nombre'].touched && eventoForm.controls['nombre'].errors">
+                                            <small *ngIf="eventoForm.controls['nombre'].errors['required']"
+                                                class="text-danger">Este campo es obligatorio.</small>
+                                            <small
+                                                *ngIf="!eventoForm.controls['nombre'].errors['required'] && eventoForm.controls['nombre'].errors['pattern']"
+                                                class="text-danger">
+                                                Caracteres no permitidos.
+                                            </small>
+                                            <small
+                                                *ngIf="!eventoForm.controls['nombre'].errors['required'] && !eventoForm.controls['nombre'].errors['pattern'] && eventoForm.controls['nombre'].errors['minlength']"
+                                                class="text-danger">
+                                                Debe tener al menos 5 caracteres.
+                                            </small>
+                                            <small
+                                                *ngIf="!eventoForm.controls['nombre'].errors['required'] && !eventoForm.controls['nombre'].errors['pattern'] && !eventoForm.controls['nombre'].errors['minlength'] && eventoForm.controls['nombre'].errors['maxlength']"
+                                                class="text-danger">
+                                                No debe exceder los 20 caracteres.
+                                            </small>
+                                        </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <label class="form-label">Inicia</label>
-                                            <input type="date" class="form-control" formControlName="fecha1">
+                                            <input type="date" class="form-control" formControlName="fechainicio">
+                                            <div
+                                                *ngIf="eventoForm.controls['fechainicio'].touched && eventoForm.controls['fechainicio'].errors">
+                                                <small *ngIf="eventoForm.controls['fechainicio'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Termina</label>
-                                            <input type="date" class="form-control" formControlName="fecha2">
+                                            <input type="date" class="form-control" formControlName="fechafin">
+                                            <div
+                                                *ngIf="eventoForm.controls['fechafin'].touched && eventoForm.controls['fechafin'].errors">
+                                                <small *ngIf="eventoForm.controls['fechafin'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <label class="form-label">Hora</label>
-                                            <input type="time" class="form-control" formControlName="hora">
+                                            <input type="time" class="form-control " formControlName="hora">
+                                            <div
+                                                *ngIf="eventoForm.controls['hora'].touched && eventoForm.controls['hora'].errors">
+                                                <small *ngIf="eventoForm.controls['hora'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
+                                            </div>
                                         </div>
                                         <div class="col">
-                                            <label class="form-label">Ubicación</label>
-                                            <input type="text" class="form-control" formControlName="lugar"
-                                                placeholder="Dirección o ubicación">
+                                            <label class="form-label">Ubicacion</label>
+                                            <select class="form-control form-select" aria-label="Seleccionar ubicacion"
+                                                formControlName="ubicacion_id">
+                                                <option value="" class="text-center" selected>---Seleccionar---</option>
+                                                <option *ngFor="let ubicacion of ubicaciones"
+                                                    [value]="ubicacion.idUbicaciones">
+                                                    {{ ubicacion.nombre }}
+                                                </option>
+                                            </select>
+                                            <div
+                                                *ngIf="eventoForm.controls['ubicacion_id'].touched && eventoForm.controls['ubicacion_id'].errors">
+                                                <small *ngIf="eventoForm.controls['ubicacion_id'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+
+                                            </div>
                                         </div>
 
                                     </div>
@@ -54,11 +104,18 @@
                                         <label class="form-label">Descripción</label>
                                         <textarea class="form-control" formControlName="descripcion"
                                             rows="2"></textarea>
+                                        <div
+                                            *ngIf="eventoForm.controls['descripcion'].touched && eventoForm.controls['descripcion'].errors">
+                                            <small *ngIf="eventoForm.controls['descripcion'].errors['required']"
+                                                class="text-danger">Este campo es obligatorio.</small>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- ACTIVIDADES -->
+                                
+                            </div>
+                                <!-- ACTIVIDADES 
                             <div class="card mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <span class="fw-bold">ACTIVIDADES</span>
@@ -101,9 +158,9 @@
 
 
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <!-- ORGANIZADORES -->
+                                <!-- ORGANIZADORES 
 
                             <div class="card mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -132,12 +189,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <!-- BOTÓN DE ENVÍO -->
-                            <div class="text-center">
-                                <button class="button-14" role="button" type="submit">Completar</button>
-                            </div>
+                                <!-- BOTÓN DE ENVÍO -->
+                                <div class="text-center">
+                                    <button class="button-14" role="button" type="submit">Completar</button>
+                                </div>
                         </form>
                     </div>
 

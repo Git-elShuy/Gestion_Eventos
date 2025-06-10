@@ -131,7 +131,7 @@
                                     <span class="fw-bold">LUGARES</span>
                                     <i class="lni lni-plus" role="button" (click)="addLugar()"></i>
                                 </div>
-                                <div class="card-body" formArrayName="lugares_ubicacion">
+                                <div class="card-body lugares-container" formArrayName="lugares_ubicacion">
                                     <div *ngFor="let lugar of lugares_ubicacionArray.controls; let i = index"
                                         [formGroupName]="i" class="row g-3 align-items-center mb-3">
 
@@ -156,15 +156,17 @@
                                             <label class="form-label fw-bold">Capacidad</label>
                                             <input type="number" class="form-control text-center"
                                                 formControlName="capacidad" placeholder="0" min="1">
-                                                <div *ngIf="lugar.get('capacidad')?.errors && lugar.get('capacidad')?.touched">
-                                                    <small *ngIf="lugar.get('capacidad')?.hasError('required')" class="text-danger">
-                                                        Este campo es obligatorio.
-                                                    </small>
-                                                </div>
+                                            <div
+                                                *ngIf="lugar.get('capacidad')?.errors && lugar.get('capacidad')?.touched">
+                                                <small *ngIf="lugar.get('capacidad')?.hasError('required')"
+                                                    class="text-danger">
+                                                    Este campo es obligatorio.
+                                                </small>
+                                            </div>
                                         </div>
                                         <div class="col-md-2 text-center">
                                             <button type="button" class="btn btn-danger btn-sm mt-4"
-                                                (click)="removeLugar(i)">🗑️ </button>
+                                                (click)="removeLugar(i)"><i class="fa fa-remove"></i> </button>
                                         </div>
 
                                     </div>

@@ -1,8 +1,8 @@
 <div class="d-flex">
     <app-sidebar></app-sidebar>
-    <div class="main">
-        <nav class="navbar navbar-expand">
-            <button class="toggler-btn" type="button">
+    <div class="mainContainer">
+        <nav class="navbar navbar-expand-md">
+            <button class="toggler-btn btn btn-outline-dark d-md" type="button">
                 <i class="lni lni-text-align-left"></i>
             </button>
         </nav>
@@ -11,24 +11,20 @@
                 <div class="mb-3 text-center">
                     <h1>RECUPERAR UBICACIONES</h1>
                     <div class="container mt-4">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs flex-column flex-md-row">
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="/dashboard/ubicaciones">ACTIVAS</a>
+                                <a class="nav-link" style="color: black;"
+                                    routerLink="/dashboard/ubicaciones">ACTIVAS</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page">INACTIVAS</a>
+                                <a class="nav-link active" style="color: black;" aria-current="page">INACTIVAS</a>
                             </li>
                         </ul>
                         <div class="row">
                             <div class="col">
-
-                                <table id="miTabla" class="display"></table>
-                                <!--                             <div *ngIf="ubicaciones.length === 0" class="alert alert-info">
-                                    No hay ubicaciones para mostrar.
-                                </div>-->
-
-                                <!--                                <button class="button-14" role="button"
-                                    (click)="enviarRecuperacion()">Completar</button>-->
+                                <div class="table-responsive">
+                                    <table id="miTabla" class="display"></table>
+                                </div>
                             </div>
                         </div>
                     </div>

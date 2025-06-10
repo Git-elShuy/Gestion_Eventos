@@ -1,7 +1,7 @@
 <div class="d-flex">
     <app-sidebar></app-sidebar>
     <div class="main">
-        <nav class="navbar navbar-expand">
+        <nav class="navbar navbar-expand-md">
             <button class="toggler-btn" type="button">
                 <i class="lni lni-text-align-left"></i>
             </button>
@@ -13,16 +13,16 @@
 
                     <div class="container mt-4">
                         <form action="" [formGroup]="ubicacionForm" (ngSubmit)="enviarFormulario()">
-                            
+
                             <div class="card mb-4">
                                 <div class="card-header fw-bold">DATOS DE LA UBICACIÓN</div>
                                 <div class="card-body">
-                              
+
                                     <div class="row mb-3">
                                         <div class="col md-6">
                                             <label class="form-label">Inmueble</label>
                                             <input type="text" class="form-control" placeholder="Nombre"
-                                                formControlName="nombre" [(ngModel)]="ubicacionForm.value.nombre">
+                                                formControlName="nombre">
                                             <div
                                                 *ngIf="ubicacionForm.controls['nombre'].touched && ubicacionForm.controls['nombre'].errors">
                                                 <small *ngIf="ubicacionForm.controls['nombre'].errors['required']"
@@ -46,7 +46,7 @@
                                         </div>
                                         <div class="col md-6">
                                             <label class="form-label">Dirección</label>
-                                            <input type="text" class="form-control" formControlName="direccion" [(ngModel)]="ubicacionForm.value.direccion">
+                                            <input type="text" class="form-control" formControlName="direccion">
                                             <div
                                                 *ngIf="ubicacionForm.controls['direccion'].touched && ubicacionForm.controls['direccion'].errors">
                                                 <small *ngIf="ubicacionForm.controls['direccion'].errors['required']"
@@ -74,7 +74,7 @@
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <label class="form-label">Colonia</label>
-                                            <input type="text" class="form-control" formControlName="colonia" [(ngModel)]="ubicacionForm.value.colonia">
+                                            <input type="text" class="form-control" formControlName="colonia">
                                             <div
                                                 *ngIf="ubicacionForm.controls['colonia'].touched && ubicacionForm.controls['colonia'].errors">
                                                 <small *ngIf="ubicacionForm.controls['colonia'].errors['required']"
@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Contacto</label>
-                                            <input type="text" class="form-control" formControlName="contacto" [(ngModel)]="ubicacionForm.value.contacto">
+                                            <input type="text" class="form-control" formControlName="contacto">
                                             <div
                                                 *ngIf="ubicacionForm.controls['contacto'].touched && ubicacionForm.controls['contacto'].errors">
                                                 <small *ngIf="ubicacionForm.controls['contacto'].errors['required']"
@@ -127,19 +127,22 @@
                             </div>
 
                             <div class="card mb-4">
-
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <span class="fw-bold">LUGARES</span>
-                                    <i class="lni lni-plus" role="button" (click)="addLugar()"></i>
-                                    <i class="fas fa-folder-open" role="button" (click)="recuperarLugares()" ></i>
+                                    <div class="iconos">
+                                        <i class="lni lni-plus" role="button" (click)="addLugar()"></i>
+                                        <i class="fa fa-trash" role="button" (click)="recuperarLugares()"></i>
+                                    </div>
                                 </div>
-                                <div class="card-body" formArrayName="lugares_ubicacion">
+
+
+                                <div class="card-body lugares-container" formArrayName="lugares_ubicacion">
                                     <div *ngFor="let lugar of lugares_ubicacionArray.controls; let i = index"
                                         [formGroupName]="i" class="row g-3 align-items-center mb-3">
 
-                                        <div class="col-md-5" >
+                                        <div class="col-md-5">
                                             <label class="form-label fw-bold">Lugar</label>
-                                            <input type="text" class="form-control" formControlName="nombreLugar" [(ngModel)]="lugar.value.nombreLugar"
+                                            <input type="text" class="form-control" formControlName="nombreLugar"
                                                 placeholder="Nombre">
                                             <div
                                                 *ngIf="lugar.get('nombreLugar')?.errors && lugar.get('nombreLugar')?.touched">
@@ -154,10 +157,10 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-md-5"  >
+                                        <div class="col-md-5">
                                             <label class="form-label fw-bold">Capacidad</label>
-                                            <input type="number" class="form-control text-center" 
-                                                formControlName="capacidad" [(ngModel)]="lugar.value.capacidad" placeholder="0" min="1">
+                                            <input type="number" class="form-control text-center"
+                                                formControlName="capacidad" placeholder="0" min="1">
                                             <div
                                                 *ngIf="lugar.get('capacidad')?.errors && lugar.get('capacidad')?.touched">
                                                 <small *ngIf="lugar.get('capacidad')?.hasError('required')"
@@ -168,7 +171,7 @@
                                         </div>
                                         <div class="col-md-2 text-center">
                                             <button type="button" class="btn btn-danger btn-sm mt-4"
-                                                (click)="removeLugar(i)">🗑️ </button>
+                                                (click)="removeLugar(i)"><i class="fa fa-remove"></i></button>
                                         </div>
 
                                     </div>

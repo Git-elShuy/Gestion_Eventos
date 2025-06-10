@@ -1,32 +1,28 @@
 <div class="d-flex">
     <app-sidebar></app-sidebar>
-    <div class="main">
-        <nav class="navbar navbar-expand">
-            <button class="toggler-btn" type="button">
+
+    <div class="mainContainer">
+        <nav class="navbar navbar-expand-md">
+            <button class="toggler-btn btn btn-outline-dark d-md" type="button">
                 <i class="lni lni-text-align-left"></i>
             </button>
         </nav>
         <main class="p-3">
             <div class="container-fluid">
-                <div class="mb-3 text-center">
-                    <h1>UBICACIÓNES</h1>
-                    <div class="container mt-4">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                              <a class="nav-link active" aria-current="page">ACTIVAS</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" routerLink="/dashboard/ubicaciones/recuperar/ubicacion">INACTIVAS</a>
-                            </li>
+                <h1 class="text-center">UBICACIONES</h1>
 
+                <div class="mt-4">
+                    <ul *ngIf="permiso == 1;" class="nav nav-tabs flex-column flex-md-row">
+                        <li class="nav-item">
+                            <a class="nav-link active">ACTIVAS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" routerLink="/dashboard/ubicaciones/recuperar/ubicacion">INACTIVAS</a>
+                        </li>
+                    </ul>
 
-                          </ul> 
-                        <div class="row">
-                            <div class="col">
-                                <table id="miTabla" class="table table-responsive table-striped" style="width:100%">
-                                </table>
-                            </div>
-                        </div>
+                    <div class="table-responsive">
+                        <table id="miTabla" class="display"></table>
                     </div>
                 </div>
             </div>

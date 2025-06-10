@@ -3,12 +3,13 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UbicacionesService } from '../ubicaciones.service';
 import { Ubicacion } from '../ubicacion';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-editar-ubicacion',
   templateUrl: './editar-ubicacion.component.html',
   styleUrl: './editar-ubicacion.component.css'
 })
-export class EditarUbicacionComponent implements OnInit , AfterViewInit{
+export class EditarUbicacionComponent implements OnInit, AfterViewInit {
   idUbicacion!: number;
   ubicacionForm: FormGroup;
   lugaresEliminados: number[] = [];
@@ -100,17 +101,29 @@ export class EditarUbicacionComponent implements OnInit , AfterViewInit{
   }
   removeLugar(index: number): void {
     const lugar = this.lugares_ubicacionArray.at(index);
-    const confirmar = window.confirm(`¿Estás seguro de que quieres eliminar "${lugar.value.nombreLugar}"?`);
+    Swal.fire({
+      title: `¿Estás seguro de que quieres eliminar ${lugar.value.nombreLugar}?`,
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (lugar.value.idubicaciones_lugar) { // Si el lugar ya existe en la BD
+          this.lugaresEliminados.push(lugar.value.idubicaciones_lugar);
+        }
 
-    if (confirmar) {
-      if (lugar.value.idubicaciones_lugar) { // Si el lugar ya existe en la BD
-        this.lugaresEliminados.push(lugar.value.idubicaciones_lugar);
+        this.lugares_ubicacionArray.removeAt(index); // Remover de la UI
+      } else {
+        console.log("Usuario canceló la acción.");
       }
+    });
 
-      this.lugares_ubicacionArray.removeAt(index); // Remover de la UI
-    } else {
-      console.log("El usuario canceló la eliminación");
-    }
+
+
   }
 
   enviarFormulario(): void {
@@ -123,8 +136,18 @@ export class EditarUbicacionComponent implements OnInit , AfterViewInit{
 
       this.us.actualizarUbicacion(this.idUbicacion, requestBody).subscribe({
         next: () => {
-          alert('Ubicación actualizada correctamente');
-          this.router.navigate(['/dashboard/ubicaciones']);
+          //alert('Ubicación actualizada correctamente');
+          Swal.fire({
+            title: '¡Operación exitosa!',
+            text: 'El proceso se completó correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#28a745'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/dashboard/ubicaciones']);
+            }
+          });
           //location.reload();
         },
         error: (err) => {
@@ -134,14 +157,17 @@ export class EditarUbicacionComponent implements OnInit , AfterViewInit{
     }
 
   }
-  recuperarLugares(){
-    this.router.navigate(['/dashboard/ubicaciones/editar/recuperar/lugares',this.idUbicacion]);
+  recuperarLugares() {
+    this.router.navigate(['/dashboard/ubicaciones/editar/recuperar/lugares', this.idUbicacion]);
   }
   ngOnInit(): void {
     // Capturar el ID de la URL
     this.route.params.subscribe(params => {
       this.idUbicacion = +params['idUbicacion']; // Convierte a número
       console.log('ID de ubicación:', this.idUbicacion);
+    });
+    this.router.events.subscribe(() => {
+      Swal.close();
     });
     this.cargarUbicacion(this.idUbicacion);
     //console.log(this.ubicacionForm.value);

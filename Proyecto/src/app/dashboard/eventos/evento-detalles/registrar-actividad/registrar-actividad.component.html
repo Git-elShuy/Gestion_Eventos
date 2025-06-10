@@ -1,0 +1,294 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="main">
+        <nav class="navbar navbar-expand">
+            <button class="toggler-btn" type="button">
+                <i class="lni lni-text-align-left"></i>
+            </button>
+        </nav>
+        <main class="p-3">
+            <div class="container-fluid">
+                <div class="mb-3 text-center">
+                    <!--<h3>Actividades</h3>-->
+                    <div class="container mt-4">
+                        <form [formGroup]="ActividadForm" (ngSubmit)="enviarFormulario()">
+                            <div class="card mb-4 shadow-sm rounded">
+                                <div class="card-header fw-bold text-center text-md-start">DATOS DE LA ACTIVIDAD</div>
+
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div *ngIf="show_expositorInput" class="col-12"></div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">NOMBRE</label>
+                                            <input type="text" class="form-control text-center"
+                                                formControlName="nombre">
+                                            <div
+                                                *ngIf="ActividadForm.controls['nombre'].touched && ActividadForm.controls['nombre'].errors">
+                                                <small *ngIf="ActividadForm.controls['nombre'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+                                                <small *ngIf="ActividadForm.controls['nombre'].errors['pattern']"
+                                                    class="text-danger">Caracteres no permitidos.</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">TIPO</label>
+                                            <div class="select-container">
+                                                <select class="form-control" formControlName="id_tipoactv"
+                                                    (change)="setupTipoActividadListener()">
+                                                    <option value="" disabled selected>---Seleccionar---</option>
+                                                    <option *ngFor="let actividad of tipo_actividades"
+                                                        [value]="actividad.idtipoactividad">{{ actividad.nombre }}
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-chevron-down"></i>
+                                            </div>
+                                            <div
+                                                *ngIf="ActividadForm.controls['id_tipoactv'].touched && ActividadForm.controls['id_tipoactv'].errors">
+                                                <small *ngIf="ActividadForm.controls['id_tipoactv'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="show_expositorInput" class="col-12 col-md-6">
+                                            <label class="form-label">EXPOSITOR</label>
+                                            <input type="text" class="form-control text-center"
+                                                formControlName="expositor">
+                                            <div
+                                                *ngIf="ActividadForm.controls['expositor'].touched && ActividadForm.controls['expositor'].errors">
+                                                <small *ngIf="ActividadForm.controls['expositor'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+                                                <small *ngIf="ActividadForm.controls['expositor'].errors['pattern']"
+                                                    class="text-danger">Caracteres no permitidos.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3 g-3">
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">FECHA</label>
+                                            <input type="date" class="form-control" formControlName="fecha">
+                                            <div *ngIf="ActividadForm.get('fecha')?.errors?.['fechaFueraDeRango']">
+                                                <small class="text-danger">La fecha debe estar entre el inicio y fin del
+                                                    evento.</small>
+                                            </div>
+                                            <div
+                                                *ngIf="ActividadForm.controls['fecha'].touched && ActividadForm.controls['fecha'].errors">
+                                                <small *ngIf="ActividadForm.controls['fecha'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">LUGAR</label>
+                                            <div class="select-container">
+                                                <select class="form-control" formControlName="lugar_id">
+                                                    <option value="" disabled selected>---Seleccionar---</option>
+                                                    <option *ngFor="let lugar of lugares"
+                                                        [value]="lugar.idubicaciones_lugar">{{ lugar.nombreLugar }}
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-chevron-down"></i>
+                                            </div>
+                                            <div
+                                                *ngIf="ActividadForm.controls['lugar_id'].touched && ActividadForm.controls['lugar_id'].errors">
+                                                <small *ngIf="ActividadForm.controls['lugar_id'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3 g-3">
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">INICIA</label>
+                                            <input type="time" class="form-control" formControlName="hora_inicio">
+                                            <div
+                                                *ngIf="ActividadForm.controls['hora_inicio'].touched && ActividadForm.controls['hora_inicio'].errors">
+                                                <small *ngIf="ActividadForm.controls['hora_inicio'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">TERMINA</label>
+                                            <input type="time" class="form-control" formControlName="hora_fin">
+                                            <div
+                                                *ngIf="ActividadForm.controls['hora_fin'].touched && ActividadForm.controls['hora_fin'].errors">
+                                                <small *ngIf="ActividadForm.controls['hora_fin'].errors['required']"
+                                                    class="text-danger">Este campo es obligatorio.</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 text-center">
+                                            <small *ngIf="ActividadForm.errors?.['FinMenorInicio']" class="text-danger">
+                                                La hora de fin no puede ser igual o menor a la hora de inicio.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card mb-4 shadow-sm">
+                                <div
+                                    class="card-header d-flex justify-content-between align-items-center flex-column flex-md-row">
+                                    <span class="fw-bold text-center text-md-start">RECURSOS</span>
+                                    <!-- <i class="lni lni-plus" role="button" (click)="addRecurso()" [disabled]="todosRecursosSeleccionados()"></i>-->
+                                    <button style="border: none; background-color: ghostwhite;"
+                                        (click)="addRecurso()"><i class="lni lni-plus"></i></button>
+                                </div>
+
+                                <div class="card-body recursos-container" formArrayName="recursos_id">
+                                    <div *ngFor="let recurso of RecursosArray.controls; let i = index"
+                                        [formGroupName]="i" class="row g-3 align-items-center mb-3">
+                                        <div class="row g-3 align-items-center mb-3">
+                                            <div class="col-12 col-md-3"> <!-- Ajuste: ocupa toda la fila en móviles -->
+                                                <div class="select-container">
+                                                    <select class="form-control" formControlName="id"
+                                                        (change)="validarEstadoInput(i)">
+                                                        <option value="" disabled selected>---Seleccionar---</option>
+                                                        <option *ngFor="let recursoFiltrado of getRecursosFiltrados(i)"
+                                                            [value]="recursoFiltrado.idrecurso">
+                                                            {{ recursoFiltrado.nombre }}
+                                                        </option>
+                                                    </select>
+                                                    <i class="fa fa-chevron-down"></i>
+                                                    <div
+                                                        *ngIf="recurso.get('id')?.touched && recurso.get('id')?.hasError('required')">
+                                                        <small class="text-danger">Este campo es obligatorio.</small>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-3"> <!-- Se adapta a móviles -->
+                                                <input type="number" class="form-control text-center"
+                                                    [readonly]="!recurso.get('id')?.value" [ngStyle]="{ 
+         'pointer-events': recurso.get('id')?.value ? 'auto' : 'none', 
+         'background-color': recurso.get('id')?.value ? '#fff' : '#e0e0e0' 
+       }" (input)="validarStock(i)" formControlName="cantidad_utilizada" min="1">
+
+                                                <div
+                                                    *ngIf="recurso.get('cantidad_utilizada')?.touched && recurso.get('cantidad_utilizada')?.hasError('required')">
+                                                    <small class="text-danger">Este campo es obligatorio.</small>
+                                                </div>
+
+                                                <div
+                                                    *ngIf="recurso.get('cantidad_utilizada')?.hasError('stockExcedido')">
+                                                    <small class="text-danger">Stock insuficiente.</small>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-12 col-md-3"> <!-- Se ajusta según el tamaño de pantalla -->
+                                                <input type="text" class="form-control text-center"
+                                                    [value]="getTipoDeRecurso(i)" style="background-color: #e0e0e0;"
+                                                    disabled />
+                                            </div>
+
+                                            <div class="col-12 col-md-3 text-center">
+                                                <!-- Botón ocupa toda la fila en móviles -->
+
+
+                                                <!--  <button type="button"
+                                                    class="btn-round btn btn-danger btn-sm w-100 mt-2">
+                                                    <i (click)="removeRecurso(i)" class="fa fa-remove"></i>
+
+                                                </button>-->
+
+
+                                                <i role="button" (click)="removeRecurso(i)"
+                                                    class="fa fa-remove btn btn-danger"></i>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card mb-4 shadow-sm"> <!-- Agrega sombra ligera -->
+                                <div
+                                    class="card-header d-flex justify-content-between align-items-center flex-column flex-md-row">
+                                    <span class="fw-bold text-center text-md-start">ASISTENTES</span>
+                                    <button style="border: none; background-color: ghostwhite;"
+                                        (click)="addAsistente()">
+                                        <i class="lni lni-plus"></i>
+                                    </button>
+                                </div>
+
+
+                                <div class="card-body asistentes-container" formArrayName="asistentes">
+                                    <div *ngFor="let asistente of asistentesArray.controls; let i = index"
+                                        [formGroupName]="i" class="row g-3 align-items-center mb-3">
+
+                                        <div class="row g-3 align-items-center mb-3">
+                                            <div class="col-12 col-md-5"> <!-- Ajuste: ocupa toda la fila en móviles -->
+                                                <div class="select-container">
+                                                    <select class="form-control" formControlName="matricula">
+                                                        <option class="text-center" value="" disabled selected>
+                                                            ---Seleccionar---</option>
+                                                        <option *ngFor="let asistente of getAsistentesFiltrados(i)"
+                                                            [value]="asistente.matricula">
+                                                            {{ asistente.nombre }}
+                                                        </option>
+                                                    </select>
+                                                    <i class="fa fa-chevron-down"></i>
+                                                    <div
+                                                        *ngIf="asistente.get('matricula')?.touched && asistente.get('matricula')?.hasError('required')">
+                                                        <small class="text-danger">Este campo es obligatorio.</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-5"> <!-- Se adapta a móviles -->
+                                                <input type="text" class="form-control text-center"
+                                                    formControlName="descripcion_actividad" placeholder="Descripción">
+                                                <div
+                                                    *ngIf="asistente.get('descripcion_actividad')?.touched && asistente.get('descripcion_actividad')?.hasError('required')">
+                                                    <small class="text-danger">Este campo es obligatorio.</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-2 text-center">
+                                                <!-- Botón ocupa toda la fila en móviles -->
+                                                <!--<button type="button" class="btn-round btn btn-danger btn-sm w-100 mt-2"
+                                                    (click)="removeAsistente(i)">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>-->
+
+                                                <i role="button" (click)="removeAsistente(i)"
+                                                    class="fa fa-remove btn btn-danger"></i>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button class="button-14" role="button" type="submit">Completar</button>
+
+                        </form>
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

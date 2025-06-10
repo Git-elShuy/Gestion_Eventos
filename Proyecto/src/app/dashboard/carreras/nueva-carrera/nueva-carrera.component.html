@@ -1,0 +1,66 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="main">
+        <nav class="navbar navbar-expand">
+            <button class="toggler-btn" type="button">
+                <i class="lni lni-text-align-left"></i>
+            </button>
+        </nav>
+        <main class="p-3">
+            <div class="container-fluid">
+                <div class="mb-3 text-center">
+                    <h1>NUEVA CARRERA</h1>
+                    <div class="container mt-4">
+                        <form action="" [formGroup]="carreraForm" (ngSubmit)="enviarFormulario()">
+                            <div class="card mb-4">
+                                <div class="card-header fw-bold">DATOS DE LA CARRERA</div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre">
+                                            <div *ngIf="carreraForm.controls['nombre'].touched && carreraForm.controls['nombre'].errors">
+                                                <small *ngIf="carreraForm.controls['nombre'].errors['required']" class="text-danger">
+                                                    Este campo es obligatorio.
+                                                </small>
+                                                <small *ngIf="!carreraForm.controls['nombre'].errors['required'] && carreraForm.controls['nombre'].errors['pattern']" class="text-danger">
+                                                    Caracteres no permitidos.
+                                                </small>
+                                                <small *ngIf="!carreraForm.controls['nombre'].errors['required'] && !carreraForm.controls['nombre'].errors['pattern'] && carreraForm.controls['nombre'].errors['minlength']" class="text-danger">
+                                                    Debe tener al menos 10 caracteres.
+                                                </small>
+                                                <small *ngIf="!carreraForm.controls['nombre'].errors['required'] && !carreraForm.controls['nombre'].errors['pattern'] && !carreraForm.controls['nombre'].errors['minlength'] && carreraForm.controls['nombre'].errors['maxlength']" class="text-danger">
+                                                    No debe exceder los 30 caracteres.
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">Abreviatura</label>
+                                            <input type="text" class="form-control" placeholder="ej. ISC" formControlName="abreviatura">
+                                            <div *ngIf="carreraForm.controls['abreviatura'].touched && carreraForm.controls['abreviatura'].errors">
+                                                <small *ngIf="carreraForm.controls['abreviatura'].errors['required']" class="text-danger">
+                                                    Este campo es obligatorio.
+                                                </small>
+                                                <small *ngIf="!carreraForm.controls['abreviatura'].errors['required'] && carreraForm.controls['abreviatura'].errors['pattern']" class="text-danger">
+                                                    Caracteres no permitidos.
+                                                </small>
+                                                <small *ngIf="!carreraForm.controls['abreviatura'].errors['required'] && !carreraForm.controls['abreviatura'].errors['pattern'] && carreraForm.controls['abreviatura'].errors['minlength']" class="text-danger">
+                                                    Debe tener al menos 3 caracteres.
+                                                </small>
+                                                <small *ngIf="!carreraForm.controls['abreviatura'].errors['required'] && !carreraForm.controls['abreviatura'].errors['pattern'] && !carreraForm.controls['abreviatura'].errors['minlength'] && carreraForm.controls['abreviatura'].errors['maxlength']" class="text-danger">
+                                                    No debe exceder los 6 caracteres.
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <button class="button-14" role="button" type="submit">Completar</button>
+                        </form>
+                    </div>
+                </div> 
+            </div> 
+        </main>
+    </div> 
+</div> 

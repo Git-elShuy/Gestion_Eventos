@@ -1,5 +1,5 @@
 h1 {
-    font-weight: 800;
+  font-weight: 800;
 }
 
 
@@ -12,78 +12,106 @@ h1 {
     overflow: hidden;
     background-color: #f9f9f9;
 }*/
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iconos {
+  display: flex;
+  gap: 10px; /* 🔹 Espaciado entre los íconos */
+  margin-left: auto; /* 🔹 Empuja los íconos hacia la derecha */
+}
+
+.iconos i {
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.iconos i:hover {
+  transform: scale(1.1);
+}
+
 .main {
-    min-height: 100vh;
-    width: 100%;
-    /*width: calc(100% - 264px); /* Calcula el ancho excluyendo el sidebar */
-    /*margin-left: 264px; /* Espacio reservado para el sidebar */
-    /*overflow-y: auto; /* Habilita desplazamiento si el contenido es largo */
-    overflow: hidden;
-    background-color: #f9f9f9;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  max-height: calc(100vh - 50px);
+
+  
 }
 
 
+.lugares-container {
+  max-height: 400px;
+  /* 🔹 Ajusta según lo que necesites */
+  overflow-y: auto;
+  /* 🔹 Permite desplazamiento si excede la altura */
+}
 
 
 .toggler-btn {
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
 }
 
 .toggler-btn i {
-    font-size: 1.75rem;
-    color: #000;
-    font-weight: 1000;
+  font-size: 1.75rem;
+  color: #000;
+  font-weight: 1000;
 }
 
 .navbar {
-    padding: 1.15rem 1.5rem;
-    border-bottom: 2px dashed #b3a8a8;
+  padding: 1.15rem 1.5rem;
+  border-bottom: 2px dashed #b3a8a8;
 }
 
 .button-14 {
-    background-image: linear-gradient(#f7f8fa ,#e7e9ec);
-    border-color: #adb1b8 #a2a6ac #8d9096;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 3px;
-    box-shadow: rgba(255,255,255,.6) 0 1px 0 inset;
-    box-sizing: border-box;
-    color: #0f1111;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Amazon Ember",Arial,sans-serif;
-    font-size: 14px;
-    height: 29px;
-    font-size: 13px;
-    outline: 0;
-    overflow: hidden;
-    padding: 0 11px;
-    text-align: center;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-  }
-  
-  .button-14:active {
-    border-bottom-color: #a2a6ac;
-  }
-  
-  .button-14:active:hover {
-    border-bottom-color: #a2a6ac;
-  }
-  
-  .button-14:hover {
-    border-color: #a2a6ac #979aa1 #82858a;
-  }
-  
-  .button-14:focus {
-    border-color: #e77600;
-    box-shadow: rgba(228, 121, 17, .5) 0 0 3px 2px;
-    outline: 0;
-  }
-  
+  background-image: linear-gradient(#f7f8fa, #e7e9ec);
+  border-color: #adb1b8 #a2a6ac #8d9096;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .6) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #0f1111;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Amazon Ember", Arial, sans-serif;
+  font-size: 14px;
+  height: 29px;
+  font-size: 13px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 11px;
+  text-align: center;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.button-14:active {
+  border-bottom-color: #a2a6ac;
+}
+
+.button-14:active:hover {
+  border-bottom-color: #a2a6ac;
+}
+
+.button-14:hover {
+  border-color: #a2a6ac #979aa1 #82858a;
+}
+
+.button-14:focus {
+  border-color: #e77600;
+  box-shadow: rgba(228, 121, 17, .5) 0 0 3px 2px;
+  outline: 0;
+}

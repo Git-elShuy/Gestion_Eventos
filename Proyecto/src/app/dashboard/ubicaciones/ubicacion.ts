@@ -1,4 +1,5 @@
 export interface Ubicacion {
+    idUbicaciones:number;
     nombre: string;
     direccion: string;
     colonia: string;

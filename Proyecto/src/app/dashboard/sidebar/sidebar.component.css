@@ -26,14 +26,17 @@ a {
 }*/
 
 #sidebar {
-    max-width: 350px;
+    max-width: 400px;
     min-width: 264px;
+    height: 100vh;
+    /* Asegura que ocupe toda la pantalla */
+    max-height: 100vh;
     transition: all 0.35s ease-in-out;
     background-color: #000;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Asegura que ocupe toda la pantalla */
-    overflow-y: auto; /* Desplazamiento vertical */
+    overflow-y: auto;
+    /* Desplazamiento vertical */
     /*position: fixed; /* Fija el sidebar en pantalla */
     top: 0;
     left: 0;
@@ -42,7 +45,12 @@ a {
 
 
 
+
 #sidebar.collapsed {
+    /*width: 0;*/
+    /*overflow: hidden;*/
+    /*transition: width 0.3s ease;*/
+    transition: all 0.35s ease-in-out;
     margin-left: -264px;
 }
 

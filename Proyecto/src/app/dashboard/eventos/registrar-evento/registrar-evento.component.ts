@@ -1,31 +1,67 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-
+import { UbicacionesService } from '../../ubicaciones/ubicaciones.service';
+import { Ubicacion } from '../../ubicaciones/ubicacion';
+import { Evento } from '../evento';
+import { EventoService } from '../evento.service';
+import { jwtDecode } from 'jwt-decode';
+import { UsuarioService } from '../../usuarios/usuario.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-registrar-evento',
   templateUrl: './registrar-evento.component.html',
   styleUrl: './registrar-evento.component.css'
 })
 export class RegistrarEventoComponent implements AfterViewInit, OnInit {
-  //usuarios: { id: number, nombre: string }[] = [];
-  //actividades: { id: number, nombre: string }[] = [];
+  ubicaciones!: Ubicacion[];
   eventoForm: FormGroup;
-
-  constructor(private fb: FormBuilder) {
+  //idpermiso!: Number;
+  idcarrera!: number;
+  matricula !: String;
+  constructor(private fb: FormBuilder, private us: UbicacionesService, private es: EventoService, private userService: UsuarioService, private router: Router) {
 
     this.eventoForm = this.fb.group({
-      nombre: ['', [Validators.required]],
-      fecha1: ['', [Validators.required]],
-      fecha2: ['', [Validators.required]],
-      hora:['',[Validators.required]],
-      lugar: ['', [Validators.required]],
+      nombre: ['', [Validators.required, Validators.pattern('^(?!\\s*$)[a-zA-Z0-9\\s-]*[a-zA-Z0-9]+$'), Validators.minLength(5), Validators.maxLength(20)]],
+      fechainicio: ['', [Validators.required]],
+      fechafin: ['', [Validators.required]],
+      hora: ['', [Validators.required]],
+      ubicacion_id: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      actividades: this.fb.array([]),
-      usuarios: this.fb.array([])
-    })
+      carrera_id: [0, [Validators.required]],
+      //actividades: this.fb.array([]),
+      //usuarios: this.fb.array([])
+    });
   }
   ngOnInit(): void {
-
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.router.events.subscribe(() => {
+        Swal.close();
+      });
+      this.getUbicaciones();
+      const usuario: any = jwtDecode(token);
+      this.matricula = usuario.sub.matricula;
+      this.userService.getUserCarrera(this.matricula).subscribe({
+        next: (idcarrera) => {
+          this.idcarrera = idcarrera;
+          console.log("idcarrera: v")
+          console.log(idcarrera);
+        }, error: (err) => {
+          console.log("err", err);
+        },
+      });
+    }
+  }
+  getUbicaciones(): void {
+    this.us.getUbicaciones().subscribe({
+      next: (ubicaciones) => {
+        this.ubicaciones = ubicaciones;
+        console.log(this.ubicaciones);
+      }, error: (err) => {
+        console.log("error", err);
+      },
+    })
   }
   ngAfterViewInit(): void {
     const toggler = document.querySelector(".toggler-btn");
@@ -51,30 +87,26 @@ export class RegistrarEventoComponent implements AfterViewInit, OnInit {
   /*get actividades(): FormArray {
     return this.actividadesArray;
   }*/
-  
-  get organizadores(): FormArray {
-    return this.usuariosArray;
-  }
-  
+
+
 
   addUsuario(): void {
-    //this.usuarios.push({ id: 0, nombre: '' }); // Agrega una fila vacía
-    const usuario = this.fb.group({
+
+    /*const usuario = this.fb.group({
       nombreUsuario:['',[Validators.required]],
       rolUsuario:['',[Validators.required]],
 
     })
-    //this.usuariosArray.push(this.fb.control('', Validators.required))
-    this.usuariosArray.push(usuario);
+ 
+    this.usuariosArray.push(usuario);*/
   }
   removeUsuario(index: number): void {
     //this.usuarios.splice(index, 1); // Elimina la fila según el índice
-    this.usuariosArray.removeAt(index);
+    //this.usuariosArray.removeAt(index);
   }
   addActividad(): void {
-    //this.actividades.push({id:0,nombre:''});
-    //this.actividades.push(this.fb.control(''));
-    const actividad = this.fb.group({
+
+    /*const actividad = this.fb.group({
       nombreActividad:['',[Validators.required]],
       fechaActividad:['',[Validators.required]],
       horaActividad:['',[Validators.required]],
@@ -82,15 +114,59 @@ export class RegistrarEventoComponent implements AfterViewInit, OnInit {
       responsableActividad:['',[Validators.required]]
 
     })
-    //this.actividadesArray.push(this.fb.control('', Validators.required));
-    this.actividadesArray.push(actividad);
+
+    this.actividadesArray.push(actividad);*/
 
   }
   removeActividad(index: number): void {
-    //this.actividades.splice(index,1);
-    this.actividadesArray.removeAt(index);
+
+    //this.actividadesArray.removeAt(index);
   }
   enviarFormulario(): void {
+    if (this.eventoForm.valid) {
+      /*this.userService.getUserCarrera(this.matricula).subscribe({
+        next: (idcarrera) => {
+          this.idcarrera = idcarrera;
+          console.log("idcarrera: v")
+          console.log(idcarrera);
+        }, error: (err) => {
+          console.log("err", err);
+        },
+      });*/
+      const data: Evento = this.eventoForm.value;
+      data.carrera_id = this.idcarrera;
+      console.log(data);
+      //console.log(horaSeleccionada);
+      const convertirHora = (hora: String) => {
+        const [horas, minutos] = hora.split(':').map(Number);
+        const periodo = horas >= 12 ? 'PM' : 'AM';
+        const horas12 = horas % 12 || 12;  // 🔹 Convertir 00 a 12 y ajustar formato
+        return `${horas12}:${minutos.toString().padStart(2, '0')} ${periodo}`;
+      };
+      const horaSeleccionada = data.hora;
+      const horaFormateada = convertirHora(horaSeleccionada);
+      data.hora = horaFormateada;
 
+      this.es.nuevoEvento(data).subscribe({
+        next: () => {
+          //alert("Evento creado con exito");
+          Swal.fire({
+            title: '¡Operación exitosa!',
+            text: 'El proceso se completó correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#28a745'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.reload();
+            }
+          });
+
+        }, error: (err) => {
+          console.log("error", err);
+        },
+      });
+
+    }
   }
 }
